@@ -1,4 +1,4 @@
-﻿namespace FormsProject1Maliukov
+﻿namespace FormsProject1MaliukovCvetkovic
 {
     partial class Form1
     {
