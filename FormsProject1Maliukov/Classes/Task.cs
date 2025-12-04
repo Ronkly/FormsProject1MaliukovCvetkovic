@@ -1,4 +1,4 @@
-﻿namespace FormsProject1MaliukovCvetkovic
+﻿namespace FormsProject1MaliukovCvetkovic.Classes
 {
     public class Task
     {

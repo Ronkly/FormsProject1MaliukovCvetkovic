@@ -1,16 +1,19 @@
-﻿namespace FormsProject1MaliukovCvetkovic
+﻿namespace FormsProject1MaliukovCvetkovic.Classes
 {
     public class User
     {
+        private string _name;
         private string _username;
         private string _password;
         private readonly string _id;
-        public User(string username, string password)
+        public User(string name, string username, string password)
         {
             Username = username;
             Password = password;
             _id = GenerateId();
         }
+        public string Name
+        { get => _name; set => _name = !string.IsNullOrEmpty(value) ? value : "Unkown name"; }
         public string Username
         {
             get => _username;
@@ -46,13 +49,13 @@
 
         private string GenerateId()
         {
-            return System.Guid.NewGuid().ToString();
+            return Guid.NewGuid().ToString();
         }
     }
 
     public class SimpleUser : User
     {
-        public SimpleUser(string username, string password) : base(username, password)
+        public SimpleUser(string name, string username, string password) : base(name, username, password)
         {
         }
 
@@ -66,7 +69,7 @@
 
     public class AdminUser : User
     {
-        public AdminUser(string username, string password) : base(username, password)
+        public AdminUser(string name, string username, string password) : base(name, username, password)
         {
         }
     }
