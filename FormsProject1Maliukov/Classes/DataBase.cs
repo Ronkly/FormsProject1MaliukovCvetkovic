@@ -7,7 +7,7 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         public static List<SimpleUser> simples = [];
 
         //statican objekat koji mozemo svuda da koristimo i da proveravamo
-        public static AdminUser admin = new("admin", "admin123");
+        public static AdminUser admin = new("karl", "admin", "admin123");
 
         private static readonly string fajl = "radnici.json";
 
