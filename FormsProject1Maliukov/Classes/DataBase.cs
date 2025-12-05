@@ -5,6 +5,7 @@ namespace FormsProject1MaliukovCvetkovic.Classes
     public static class DataBase
     {
         public static List<SimpleUser> simples = [];
+        public static List<Task> tasks = [];
 
         //statican objekat koji mozemo svuda da koristimo i da proveravamo
         public static AdminUser admin = new("karl", "admin", "admin123");

@@ -6,14 +6,14 @@
         public string Description { get; set; }
         public DateTime DueDate { get; set; }
         public bool IsCompleted { get; set; }
-        public string author_ID { get; set; }
+        public string owner_ID { get; set; }
         public Task(string title, string description, DateTime dueDate, string ID)
         {
             Title = title;
             Description = description;
             DueDate = dueDate;
             IsCompleted = false;
-            author_ID = ID;
+            owner_ID = ID;
         }
         public void MarkAsCompleted()
         {
