@@ -25,7 +25,6 @@
                 }
                 else
                 {
-                    // Handle invalid username case
                     _username = "Unknown user";
                 }
             }
@@ -41,7 +40,6 @@
                 }
                 else
                 {
-                    // Handle invalid password case
                     _password = "default123";
                 }
             }
