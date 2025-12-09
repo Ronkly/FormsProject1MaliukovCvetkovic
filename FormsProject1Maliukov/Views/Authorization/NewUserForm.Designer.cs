@@ -43,6 +43,7 @@
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(228, 34);
             textBox2.TabIndex = 9;
+            textBox2.TextChanged += textBox2_TextChanged;
             // 
             // textBox1
             // 
@@ -51,6 +52,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(228, 34);
             textBox1.TabIndex = 8;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // buttonNewUser
             // 
@@ -60,6 +62,7 @@
             buttonNewUser.TabIndex = 7;
             buttonNewUser.Text = "Log In";
             buttonNewUser.UseVisualStyleBackColor = true;
+            buttonNewUser.Click += buttonNewUser_Click;
             // 
             // buttonLogIn
             // 
@@ -69,6 +72,7 @@
             buttonLogIn.TabIndex = 6;
             buttonLogIn.Text = "Create profile";
             buttonLogIn.UseVisualStyleBackColor = true;
+            buttonLogIn.Click += buttonLogIn_Click;
             // 
             // label1
             // 
@@ -87,6 +91,7 @@
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(228, 34);
             textBox3.TabIndex = 10;
+            textBox3.TextChanged += textBox3_TextChanged;
             // 
             // NewUserForm
             // 
