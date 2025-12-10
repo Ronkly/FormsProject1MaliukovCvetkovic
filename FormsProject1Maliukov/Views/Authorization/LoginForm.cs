@@ -24,12 +24,12 @@
 
         private void buttonLogIn_Click(object sender, EventArgs e)
         {
-            PerformLogin(); // I'll call the login method here
+            PerformLogin();
         }
 
         private void buttonNewUser_Click(object sender, EventArgs e)
         {
-            GoToSignUp(); // I'll call the sign up transition here
+            GoToSignUp();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -50,7 +50,6 @@
 
             if (Classes.DataBase.Authenticate(username, password))
             {
-                // I need to open the TasksForm
                 Views.TasksForm tasksForm = new Views.TasksForm();
                 tasksForm.Show();
                 this.Hide();
@@ -61,7 +60,6 @@
             }
         }
 
-        // Transition to registration
         private void GoToSignUp()
         {
             Views.Authorization.NewUserForm regForm = new Views.Authorization.NewUserForm();
