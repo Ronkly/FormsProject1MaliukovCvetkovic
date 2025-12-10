@@ -8,7 +8,6 @@
         }
         private void PerformRegistration(string name, string username, string password)
         {
-            // I need to check for unique username
             if (Classes.DataBase.simples.Any(u => u.Username == username) || Classes.DataBase.admin.Username == username)
             {
                 _ = MessageBox.Show("User with this username already exists.");
