@@ -6,7 +6,6 @@
         {
             InitializeComponent();
         }
-        // I'll call this from the Register button click event
         private void PerformRegistration(string name, string username, string password)
         {
             // I need to check for unique username
@@ -27,8 +26,6 @@
             login.Show();
             Close();
         }
-
-        // I'll call this from the Back to Login button click event
         private void BackToLogin()
         {
             LoginForm login = new();
