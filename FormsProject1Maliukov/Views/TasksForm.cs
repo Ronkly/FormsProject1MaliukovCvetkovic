@@ -65,7 +65,6 @@ namespace FormsProject1MaliukovCvetkovic.Views
             {
                 Views.Admin.UserManagement adminForm = new();
                 adminForm.Show();
-                // I might need to manage form visibility here
             }
             else
             {
