@@ -20,8 +20,6 @@
             Classes.DataBase.SaveUsers();
 
             _ = MessageBox.Show("Registration successful! Now log in.");
-
-            // I'll go back to login
             LoginForm login = new();
             login.Show();
             Close();
