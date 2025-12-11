@@ -6,8 +6,6 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         private string _username;
         private string _password;
         private readonly string _id;
-        
-        // I need to be able to read the ID publicly
         public string Id => _id; 
 
         public User(string name, string username, string password)

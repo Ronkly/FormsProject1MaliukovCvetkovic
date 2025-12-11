@@ -70,7 +70,7 @@
             buttonProfile.Name = "buttonProfile";
             buttonProfile.Size = new Size(94, 29);
             buttonProfile.TabIndex = 2;
-            buttonProfile.Text = "button1";
+            buttonProfile.Text = "Profile";
             buttonProfile.UseVisualStyleBackColor = true;
             buttonProfile.Click += buttonProfile_Click;
             // 
@@ -80,7 +80,7 @@
             buttonLogOut.Name = "buttonLogOut";
             buttonLogOut.Size = new Size(94, 29);
             buttonLogOut.TabIndex = 3;
-            buttonLogOut.Text = "button2";
+            buttonLogOut.Text = "Log Out";
             buttonLogOut.UseVisualStyleBackColor = true;
             buttonLogOut.Click += buttonLogOut_Click;
             // 
@@ -90,7 +90,7 @@
             buttonUserList.Name = "buttonUserList";
             buttonUserList.Size = new Size(94, 29);
             buttonUserList.TabIndex = 4;
-            buttonUserList.Text = "button3";
+            buttonUserList.Text = "User list";
             buttonUserList.UseVisualStyleBackColor = true;
             buttonUserList.Click += buttonUserList_Click;
             // 
@@ -136,6 +136,7 @@
             textBoxTaskName.Name = "textBoxTaskName";
             textBoxTaskName.Size = new Size(125, 27);
             textBoxTaskName.TabIndex = 9;
+            textBoxTaskName.Text = "Name";
             textBoxTaskName.TextChanged += textBoxTaskName_TextChanged;
             // 
             // textBoxTaskDesc
@@ -144,6 +145,7 @@
             textBoxTaskDesc.Name = "textBoxTaskDesc";
             textBoxTaskDesc.Size = new Size(125, 27);
             textBoxTaskDesc.TabIndex = 10;
+            textBoxTaskDesc.Text = "Description";
             textBoxTaskDesc.TextChanged += textBoxTaskDesc_TextChanged;
             // 
             // dateTimePicker1

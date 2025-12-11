@@ -79,6 +79,7 @@
             textBox2.Font = new Font("Arial", 14F);
             textBox2.Location = new Point(113, 248);
             textBox2.Name = "textBox2";
+            textBox2.PasswordChar = '*';
             textBox2.Size = new Size(228, 34);
             textBox2.TabIndex = 4;
             textBox2.TextChanged += textBox2_TextChanged;

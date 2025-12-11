@@ -9,6 +9,10 @@ namespace FormsProject1MaliukovCvetkovic.Views
             InitializeComponent();
             LoadProfileData();
         }
+        private void UserProfileForm_Load(object sender, EventArgs e)
+        {
+
+        }
 
         private void LoadProfileData()
         {

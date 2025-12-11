@@ -30,8 +30,8 @@
         {
             textBox2 = new TextBox();
             textBox1 = new TextBox();
-            buttonNewUser = new Button();
-            buttonLogIn = new Button();
+            buttonToLogIn = new Button();
+            buttonSignUp = new Button();
             label1 = new Label();
             textBox3 = new TextBox();
             SuspendLayout();
@@ -39,7 +39,7 @@
             // textBox2
             // 
             textBox2.Font = new Font("Arial", 14F);
-            textBox2.Location = new Point(78, 247);
+            textBox2.Location = new Point(78, 188);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(228, 34);
             textBox2.TabIndex = 9;
@@ -54,25 +54,25 @@
             textBox1.TabIndex = 8;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
-            // buttonNewUser
+            // buttonToLogIn
             // 
-            buttonNewUser.Location = new Point(306, 12);
-            buttonNewUser.Name = "buttonNewUser";
-            buttonNewUser.Size = new Size(94, 29);
-            buttonNewUser.TabIndex = 7;
-            buttonNewUser.Text = "Log In";
-            buttonNewUser.UseVisualStyleBackColor = true;
-            buttonNewUser.Click += buttonNewUser_Click;
+            buttonToLogIn.Location = new Point(306, 12);
+            buttonToLogIn.Name = "buttonToLogIn";
+            buttonToLogIn.Size = new Size(94, 29);
+            buttonToLogIn.TabIndex = 7;
+            buttonToLogIn.Text = "Log In";
+            buttonToLogIn.UseVisualStyleBackColor = true;
+            buttonToLogIn.Click += buttonNewUser_Click;
             // 
-            // buttonLogIn
+            // buttonSignUp
             // 
-            buttonLogIn.Location = new Point(99, 354);
-            buttonLogIn.Name = "buttonLogIn";
-            buttonLogIn.Size = new Size(197, 66);
-            buttonLogIn.TabIndex = 6;
-            buttonLogIn.Text = "Create profile";
-            buttonLogIn.UseVisualStyleBackColor = true;
-            buttonLogIn.Click += buttonLogIn_Click;
+            buttonSignUp.Location = new Point(99, 354);
+            buttonSignUp.Name = "buttonSignUp";
+            buttonSignUp.Size = new Size(197, 66);
+            buttonSignUp.TabIndex = 6;
+            buttonSignUp.Text = "Create profile";
+            buttonSignUp.UseVisualStyleBackColor = true;
+            buttonSignUp.Click += buttonLogIn_Click;
             // 
             // label1
             // 
@@ -87,8 +87,9 @@
             // textBox3
             // 
             textBox3.Font = new Font("Arial", 14F);
-            textBox3.Location = new Point(78, 187);
+            textBox3.Location = new Point(78, 256);
             textBox3.Name = "textBox3";
+            textBox3.PasswordChar = '*';
             textBox3.Size = new Size(228, 34);
             textBox3.TabIndex = 10;
             textBox3.TextChanged += textBox3_TextChanged;
@@ -101,8 +102,8 @@
             Controls.Add(textBox3);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
-            Controls.Add(buttonNewUser);
-            Controls.Add(buttonLogIn);
+            Controls.Add(buttonToLogIn);
+            Controls.Add(buttonSignUp);
             Controls.Add(label1);
             Name = "NewUserForm";
             Text = "NewUserForm";
@@ -114,8 +115,8 @@
 
         private TextBox textBox2;
         private TextBox textBox1;
-        private Button buttonNewUser;
-        private Button buttonLogIn;
+        private Button buttonToLogIn;
+        private Button buttonSignUp;
         private Label label1;
         private TextBox textBox3;
     }
