@@ -24,6 +24,8 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         {
             string json = JsonConvert.SerializeObject(simples, Formatting.Indented);
             File.WriteAllText(usersFile, json);
+            string adminJson = JsonConvert.SerializeObject(admin, Formatting.Indented);
+            File.WriteAllText("admin.json", adminJson);
         }
 
         public static void LoadUsers()
@@ -32,6 +34,11 @@ namespace FormsProject1MaliukovCvetkovic.Classes
             {
                 string json = File.ReadAllText(usersFile);
                 simples = JsonConvert.DeserializeObject<List<SimpleUser>>(json) ?? [];
+            }
+            if (File.Exists("admin.json"))
+            {
+                string adminJson = File.ReadAllText("admin.json");
+                admin = JsonConvert.DeserializeObject<AdminUser>(adminJson) ?? admin;
             }
         }
 

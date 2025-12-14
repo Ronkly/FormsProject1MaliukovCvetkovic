@@ -1,3 +1,5 @@
+using Newtonsoft.Json; // Обязательно добавь это для работы атрибутов
+
 namespace FormsProject1MaliukovCvetkovic.Classes
 {
     public class User
@@ -5,34 +7,34 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         private string _name;
         private string _username;
         private string _password;
-        private readonly string _id;
-        public string Id => _id; 
+        
+        public string Id { get; set; }
 
         public User(string name, string username, string password)
         {
+            Id = Guid.NewGuid().ToString();
+            Name = name;
             Username = username;
             Password = password;
-            _id = GenerateId();
         }
+        [JsonConstructor]
+        public User(string name, string username, string password, string id)
+        {
+            Id = id;
+            Name = name;
+            Username = username;
+            Password = password;
+        }
+
         public string Name
         { 
             get => _name;
-            set => _name = !string.IsNullOrEmpty(value) ? value : "Unkown name";
+            set => _name = !string.IsNullOrEmpty(value) ? value : "Unknown name";
         }
         public string Username
         {
             get => _username;
-            set
-            {
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    _username = value;
-                }
-                else
-                {
-                    _username = "Unknown user";
-                }
-            }
+            set => _username = !string.IsNullOrWhiteSpace(value) ? value : "Unknown user";
         }
         public string Password
         {
@@ -40,46 +42,42 @@ namespace FormsProject1MaliukovCvetkovic.Classes
             set
             {
                 if (!string.IsNullOrWhiteSpace(value) && value.Length >= 6)
-                {
                     _password = value;
-                }
                 else
-                {
                     _password = "default123";
-                }
             }
         }
         
-        // I want to update my profile data
-        public void UpdateProfile(string newName, string newUsername, string newPassword)
+        public void UpdateProfile(string newName, string newUsername)
         {
             Name = newName;
             Username = newUsername;
-            Password = newPassword;
         }
 
-        private string GenerateId()
+        public void UpdatePassword(string newPassword)
         {
-            return Guid.NewGuid().ToString();
+            Password = newPassword;
         }
     }
 
     public class SimpleUser : User
     {
-        public SimpleUser(string name, string username, string password) : base(name, username, password)
-        {
-        }
+        // Передаем ID в базовый конструктор при загрузке
+        [JsonConstructor]
+        public SimpleUser(string name, string username, string password, string id) 
+            : base(name, username, password, id) { }
 
-        public void DeleteAccount()
-        {
-            // I'll add logic to delete the account and all tasks here
-        }
+        public SimpleUser(string name, string username, string password) 
+            : base(name, username, password) { }
     }
 
     public class AdminUser : User
     {
-        public AdminUser(string name, string username, string password) : base(name, username, password)
-        {
-        }
+        [JsonConstructor]
+        public AdminUser(string name, string username, string password, string id) 
+            : base(name, username, password, id) { }
+
+        public AdminUser(string name, string username, string password) 
+            : base(name, username, password) { }
     }
 }

@@ -40,6 +40,8 @@
             textBoxTaskName = new TextBox();
             textBoxTaskDesc = new TextBox();
             dateTimePicker1 = new DateTimePicker();
+            buttonDelete = new Button();
+            buttonUpdate = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
@@ -47,28 +49,31 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(47, 120);
+            dataGridView1.Location = new Point(41, 90);
+            dataGridView1.Margin = new Padding(3, 2, 3, 2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(300, 188);
+            dataGridView1.Size = new Size(262, 141);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // dataGridView2
             // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(430, 120);
+            dataGridView2.Location = new Point(376, 90);
+            dataGridView2.Margin = new Padding(3, 2, 3, 2);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowHeadersWidth = 51;
-            dataGridView2.Size = new Size(300, 188);
+            dataGridView2.Size = new Size(262, 141);
             dataGridView2.TabIndex = 1;
             dataGridView2.CellContentClick += dataGridView2_CellContentClick;
             // 
             // buttonProfile
             // 
-            buttonProfile.Location = new Point(46, 35);
+            buttonProfile.Location = new Point(40, 26);
+            buttonProfile.Margin = new Padding(3, 2, 3, 2);
             buttonProfile.Name = "buttonProfile";
-            buttonProfile.Size = new Size(94, 29);
+            buttonProfile.Size = new Size(82, 22);
             buttonProfile.TabIndex = 2;
             buttonProfile.Text = "Profile";
             buttonProfile.UseVisualStyleBackColor = true;
@@ -76,9 +81,10 @@
             // 
             // buttonLogOut
             // 
-            buttonLogOut.Location = new Point(146, 35);
+            buttonLogOut.Location = new Point(128, 26);
+            buttonLogOut.Margin = new Padding(3, 2, 3, 2);
             buttonLogOut.Name = "buttonLogOut";
-            buttonLogOut.Size = new Size(94, 29);
+            buttonLogOut.Size = new Size(82, 22);
             buttonLogOut.TabIndex = 3;
             buttonLogOut.Text = "Log Out";
             buttonLogOut.UseVisualStyleBackColor = true;
@@ -86,9 +92,10 @@
             // 
             // buttonUserList
             // 
-            buttonUserList.Location = new Point(669, 35);
+            buttonUserList.Location = new Point(585, 26);
+            buttonUserList.Margin = new Padding(3, 2, 3, 2);
             buttonUserList.Name = "buttonUserList";
-            buttonUserList.Size = new Size(94, 29);
+            buttonUserList.Size = new Size(82, 22);
             buttonUserList.TabIndex = 4;
             buttonUserList.Text = "User list";
             buttonUserList.UseVisualStyleBackColor = true;
@@ -96,35 +103,39 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(432, 84);
+            textBox1.Location = new Point(378, 63);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(125, 27);
+            textBox1.PlaceholderText = "Search";
+            textBox1.Size = new Size(110, 23);
             textBox1.TabIndex = 5;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(579, 83);
+            comboBox1.Location = new Point(507, 62);
+            comboBox1.Margin = new Padding(3, 2, 3, 2);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(151, 28);
+            comboBox1.Size = new Size(133, 23);
             comboBox1.TabIndex = 6;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // labelWelcome
             // 
             labelWelcome.AutoSize = true;
-            labelWelcome.Location = new Point(360, 29);
+            labelWelcome.Location = new Point(315, 22);
             labelWelcome.Name = "labelWelcome";
-            labelWelcome.Size = new Size(50, 20);
+            labelWelcome.Size = new Size(38, 15);
             labelWelcome.TabIndex = 7;
             labelWelcome.Text = "label1";
             // 
             // buttonTask
             // 
-            buttonTask.Location = new Point(636, 379);
+            buttonTask.Location = new Point(556, 284);
+            buttonTask.Margin = new Padding(3, 2, 3, 2);
             buttonTask.Name = "buttonTask";
-            buttonTask.Size = new Size(94, 29);
+            buttonTask.Size = new Size(82, 22);
             buttonTask.TabIndex = 8;
             buttonTask.Text = "New task";
             buttonTask.UseVisualStyleBackColor = true;
@@ -132,34 +143,59 @@
             // 
             // textBoxTaskName
             // 
-            textBoxTaskName.Location = new Point(61, 383);
+            textBoxTaskName.Location = new Point(53, 287);
+            textBoxTaskName.Margin = new Padding(3, 2, 3, 2);
             textBoxTaskName.Name = "textBoxTaskName";
-            textBoxTaskName.Size = new Size(125, 27);
+            textBoxTaskName.PlaceholderText = "Name";
+            textBoxTaskName.Size = new Size(110, 23);
             textBoxTaskName.TabIndex = 9;
-            textBoxTaskName.Text = "Name";
             textBoxTaskName.TextChanged += textBoxTaskName_TextChanged;
             // 
             // textBoxTaskDesc
             // 
-            textBoxTaskDesc.Location = new Point(222, 383);
+            textBoxTaskDesc.Location = new Point(194, 287);
+            textBoxTaskDesc.Margin = new Padding(3, 2, 3, 2);
             textBoxTaskDesc.Name = "textBoxTaskDesc";
-            textBoxTaskDesc.Size = new Size(125, 27);
+            textBoxTaskDesc.PlaceholderText = "Description";
+            textBoxTaskDesc.Size = new Size(110, 23);
             textBoxTaskDesc.TabIndex = 10;
-            textBoxTaskDesc.Text = "Description";
             textBoxTaskDesc.TextChanged += textBoxTaskDesc_TextChanged;
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(360, 381);
+            dateTimePicker1.Location = new Point(315, 286);
+            dateTimePicker1.Margin = new Padding(3, 2, 3, 2);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(250, 27);
+            dateTimePicker1.Size = new Size(219, 23);
             dateTimePicker1.TabIndex = 11;
+            // 
+            // buttonDelete
+            // 
+            buttonDelete.Location = new Point(162, 251);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(75, 23);
+            buttonDelete.TabIndex = 12;
+            buttonDelete.Text = "Delete";
+            buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += buttonDelete_Click;
+            // 
+            // buttonUpdate
+            // 
+            buttonUpdate.Location = new Point(376, 18);
+            buttonUpdate.Name = "buttonUpdate";
+            buttonUpdate.Size = new Size(75, 23);
+            buttonUpdate.TabIndex = 13;
+            buttonUpdate.Text = "Update";
+            buttonUpdate.UseVisualStyleBackColor = true;
+            buttonUpdate.Click += buttonUpdate_Click;
             // 
             // TasksForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
+            Controls.Add(buttonUpdate);
+            Controls.Add(buttonDelete);
             Controls.Add(dateTimePicker1);
             Controls.Add(textBoxTaskDesc);
             Controls.Add(textBoxTaskName);
@@ -172,6 +208,7 @@
             Controls.Add(buttonProfile);
             Controls.Add(dataGridView2);
             Controls.Add(dataGridView1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "TasksForm";
             Text = "TasksForm";
             Load += TasksForm_Load;
@@ -195,5 +232,7 @@
         private TextBox textBoxTaskName;
         private TextBox textBoxTaskDesc;
         private DateTimePicker dateTimePicker1;
+        private Button buttonDelete;
+        private Button buttonUpdate;
     }
 }

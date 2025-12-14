@@ -39,26 +39,31 @@
             // textBox2
             // 
             textBox2.Font = new Font("Arial", 14F);
-            textBox2.Location = new Point(78, 188);
+            textBox2.Location = new Point(108, 164);
+            textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(228, 34);
+            textBox2.PlaceholderText = "Username";
+            textBox2.Size = new Size(200, 29);
             textBox2.TabIndex = 9;
             textBox2.TextChanged += textBox2_TextChanged;
             // 
             // textBox1
             // 
             textBox1.Font = new Font("Arial", 14F);
-            textBox1.Location = new Point(78, 131);
+            textBox1.Location = new Point(108, 116);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(228, 34);
+            textBox1.PlaceholderText = "Name";
+            textBox1.Size = new Size(200, 29);
             textBox1.TabIndex = 8;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
             // buttonToLogIn
             // 
-            buttonToLogIn.Location = new Point(306, 12);
+            buttonToLogIn.Location = new Point(333, 35);
+            buttonToLogIn.Margin = new Padding(3, 2, 3, 2);
             buttonToLogIn.Name = "buttonToLogIn";
-            buttonToLogIn.Size = new Size(94, 29);
+            buttonToLogIn.Size = new Size(82, 22);
             buttonToLogIn.TabIndex = 7;
             buttonToLogIn.Text = "Log In";
             buttonToLogIn.UseVisualStyleBackColor = true;
@@ -66,9 +71,10 @@
             // 
             // buttonSignUp
             // 
-            buttonSignUp.Location = new Point(99, 354);
+            buttonSignUp.Location = new Point(123, 293);
+            buttonSignUp.Margin = new Padding(3, 2, 3, 2);
             buttonSignUp.Name = "buttonSignUp";
-            buttonSignUp.Size = new Size(197, 66);
+            buttonSignUp.Size = new Size(172, 50);
             buttonSignUp.TabIndex = 6;
             buttonSignUp.Text = "Create profile";
             buttonSignUp.UseVisualStyleBackColor = true;
@@ -78,33 +84,36 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(127, 64);
+            label1.Location = new Point(152, 52);
             label1.Name = "label1";
-            label1.Size = new Size(135, 33);
+            label1.Size = new Size(104, 26);
             label1.TabIndex = 5;
             label1.Text = "Team-Do";
             // 
             // textBox3
             // 
             textBox3.Font = new Font("Arial", 14F);
-            textBox3.Location = new Point(78, 256);
+            textBox3.Location = new Point(108, 219);
+            textBox3.Margin = new Padding(3, 2, 3, 2);
             textBox3.Name = "textBox3";
             textBox3.PasswordChar = '*';
-            textBox3.Size = new Size(228, 34);
+            textBox3.PlaceholderText = "Password";
+            textBox3.Size = new Size(200, 29);
             textBox3.TabIndex = 10;
             textBox3.TextChanged += textBox3_TextChanged;
             // 
             // NewUserForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(412, 450);
+            ClientSize = new Size(437, 439);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(buttonToLogIn);
             Controls.Add(buttonSignUp);
             Controls.Add(label1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "NewUserForm";
             Text = "NewUserForm";
             ResumeLayout(false);

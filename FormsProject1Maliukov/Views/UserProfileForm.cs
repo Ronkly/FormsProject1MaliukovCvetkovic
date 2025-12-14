@@ -16,18 +16,35 @@ namespace FormsProject1MaliukovCvetkovic.Views
 
         private void LoadProfileData()
         {
-            
+            textBoxName.Text = DataBase.CurrentUser.Name;
+            textBoxLogin.Text = DataBase.CurrentUser.Username;
+            textBoxName.Text = DataBase.CurrentUser.Name;
         }
 
-        private void SaveChanges(string name, string username, string pass)
+        private void SaveChanges(string name, string username)
         {
-DataBase.CurrentUser.UpdateProfile(name, username, pass);
+            DataBase.CurrentUser.UpdateProfile(name, username);
 
-                if (DataBase.CurrentUser is SimpleUser)
-                {
-                    DataBase.SaveUsers();
-}
-                _ = MessageBox.Show("Profile data updated.");
+            if (DataBase.CurrentUser is SimpleUser)
+            {
+                DataBase.SaveUsers();
+            }
+            _ = MessageBox.Show("Profile data updated.");
+        }
+
+        private bool CheckPassword()
+        {
+            if (textBoxCurrent.Text != DataBase.CurrentUser.Password)
+            {
+                _ = MessageBox.Show("Current password is incorrect.");
+                return false;
+            }
+            if (textBoxNewPass.Text.Length < 6)
+            {
+                _ = MessageBox.Show("New password must be at least 6 characters long.");
+                return false;
+            }
+            return true;
         }
 
         private void DeleteAccount()
@@ -53,6 +70,29 @@ DataBase.CurrentUser.UpdateProfile(name, username, pass);
 
                 DataBase.CurrentUser = null;
                 _ = MessageBox.Show("Account successfully deleted.");
+            }
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            DeleteAccount();
+        }
+
+        private void buttonSaveChanges_Click(object sender, EventArgs e)
+        {
+            SaveChanges(textBoxName.Text, textBoxLogin.Text);
+        }
+
+        private void buttonChangePass_Click(object sender, EventArgs e)
+        {
+            if (CheckPassword())
+            {
+                DataBase.CurrentUser.UpdatePassword(textBoxNewPass.Text);
+                if (DataBase.CurrentUser is SimpleUser)
+                {
+                    DataBase.SaveUsers();
+                }
+                _ = MessageBox.Show("Password successfully changed.");
             }
         }
     }
