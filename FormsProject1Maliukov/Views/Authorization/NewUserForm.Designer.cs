@@ -34,6 +34,7 @@
             buttonSignUp = new Button();
             label1 = new Label();
             textBox3 = new TextBox();
+            label2 = new Label();
             SuspendLayout();
             // 
             // textBox2
@@ -84,7 +85,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(152, 52);
+            label1.Location = new Point(27, 35);
             label1.Name = "label1";
             label1.Size = new Size(104, 26);
             label1.TabIndex = 5;
@@ -102,11 +103,22 @@
             textBox3.TabIndex = 10;
             textBox3.TextChanged += textBox3_TextChanged;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(161, 69);
+            label2.Name = "label2";
+            label2.Size = new Size(93, 26);
+            label2.TabIndex = 11;
+            label2.Text = "Sign Up";
+            // 
             // NewUserForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(437, 439);
+            Controls.Add(label2);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -116,6 +128,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "NewUserForm";
             Text = "NewUserForm";
+            Load += NewUserForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -128,5 +141,6 @@
         private Button buttonSignUp;
         private Label label1;
         private TextBox textBox3;
+        private Label label2;
     }
 }

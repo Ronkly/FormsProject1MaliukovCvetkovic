@@ -33,13 +33,14 @@
             buttonNewUser = new Button();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
+            label2 = new Label();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(142, 75);
+            label1.Location = new Point(35, 36);
             label1.Name = "label1";
             label1.Size = new Size(104, 26);
             label1.TabIndex = 0;
@@ -90,11 +91,22 @@
             textBox2.TabIndex = 4;
             textBox2.TextChanged += textBox2_TextChanged;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(159, 77);
+            label2.Name = "label2";
+            label2.Size = new Size(75, 26);
+            label2.TabIndex = 5;
+            label2.Text = "Log In";
+            // 
             // LoginForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(419, 370);
+            Controls.Add(label2);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
             Controls.Add(buttonNewUser);
@@ -115,5 +127,6 @@
         private Button buttonNewUser;
         private TextBox textBox1;
         private TextBox textBox2;
+        private Label label2;
     }
 }

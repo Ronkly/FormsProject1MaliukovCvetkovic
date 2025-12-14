@@ -42,6 +42,7 @@
             dateTimePicker1 = new DateTimePicker();
             buttonDelete = new Button();
             buttonUpdate = new Button();
+            buttonMarkDone = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
@@ -73,7 +74,7 @@
             buttonProfile.Location = new Point(40, 26);
             buttonProfile.Margin = new Padding(3, 2, 3, 2);
             buttonProfile.Name = "buttonProfile";
-            buttonProfile.Size = new Size(82, 22);
+            buttonProfile.Size = new Size(82, 48);
             buttonProfile.TabIndex = 2;
             buttonProfile.Text = "Profile";
             buttonProfile.UseVisualStyleBackColor = true;
@@ -81,10 +82,10 @@
             // 
             // buttonLogOut
             // 
-            buttonLogOut.Location = new Point(128, 26);
+            buttonLogOut.Location = new Point(589, 26);
             buttonLogOut.Margin = new Padding(3, 2, 3, 2);
             buttonLogOut.Name = "buttonLogOut";
-            buttonLogOut.Size = new Size(82, 22);
+            buttonLogOut.Size = new Size(82, 32);
             buttonLogOut.TabIndex = 3;
             buttonLogOut.Text = "Log Out";
             buttonLogOut.UseVisualStyleBackColor = true;
@@ -92,10 +93,10 @@
             // 
             // buttonUserList
             // 
-            buttonUserList.Location = new Point(585, 26);
+            buttonUserList.Location = new Point(128, 26);
             buttonUserList.Margin = new Padding(3, 2, 3, 2);
             buttonUserList.Name = "buttonUserList";
-            buttonUserList.Size = new Size(82, 22);
+            buttonUserList.Size = new Size(82, 48);
             buttonUserList.TabIndex = 4;
             buttonUserList.Text = "User list";
             buttonUserList.UseVisualStyleBackColor = true;
@@ -124,7 +125,7 @@
             // labelWelcome
             // 
             labelWelcome.AutoSize = true;
-            labelWelcome.Location = new Point(315, 22);
+            labelWelcome.Location = new Point(233, 35);
             labelWelcome.Name = "labelWelcome";
             labelWelcome.Size = new Size(38, 15);
             labelWelcome.TabIndex = 7;
@@ -181,19 +182,30 @@
             // 
             // buttonUpdate
             // 
-            buttonUpdate.Location = new Point(376, 18);
+            buttonUpdate.Location = new Point(309, 147);
             buttonUpdate.Name = "buttonUpdate";
-            buttonUpdate.Size = new Size(75, 23);
+            buttonUpdate.Size = new Size(64, 34);
             buttonUpdate.TabIndex = 13;
             buttonUpdate.Text = "Update";
             buttonUpdate.UseVisualStyleBackColor = true;
             buttonUpdate.Click += buttonUpdate_Click;
+            // 
+            // buttonMarkDone
+            // 
+            buttonMarkDone.Location = new Point(258, 248);
+            buttonMarkDone.Name = "buttonMarkDone";
+            buttonMarkDone.Size = new Size(75, 23);
+            buttonMarkDone.TabIndex = 14;
+            buttonMarkDone.Text = "Mark done";
+            buttonMarkDone.UseVisualStyleBackColor = true;
+            buttonMarkDone.Click += buttonMarkDone_Click;
             // 
             // TasksForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(700, 338);
+            Controls.Add(buttonMarkDone);
             Controls.Add(buttonUpdate);
             Controls.Add(buttonDelete);
             Controls.Add(dateTimePicker1);
@@ -234,5 +246,6 @@
         private DateTimePicker dateTimePicker1;
         private Button buttonDelete;
         private Button buttonUpdate;
+        private Button buttonMarkDone;
     }
 }

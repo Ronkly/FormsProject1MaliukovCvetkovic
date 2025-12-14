@@ -1,4 +1,4 @@
-using Newtonsoft.Json; // Обязательно добавь это для работы атрибутов
+using Newtonsoft.Json;
 
 namespace FormsProject1MaliukovCvetkovic.Classes
 {
@@ -7,7 +7,7 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         private string _name;
         private string _username;
         private string _password;
-        
+
         public string Id { get; set; }
 
         public User(string name, string username, string password)
@@ -27,7 +27,7 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         }
 
         public string Name
-        { 
+        {
             get => _name;
             set => _name = !string.IsNullOrEmpty(value) ? value : "Unknown name";
         }
@@ -38,16 +38,9 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         }
         public string Password
         {
-            get => _password;
-            set
-            {
-                if (!string.IsNullOrWhiteSpace(value) && value.Length >= 6)
-                    _password = value;
-                else
-                    _password = "default123";
-            }
+            get => _password; set => _password = !string.IsNullOrWhiteSpace(value) && value.Length >= 6 ? value : "default123";
         }
-        
+
         public void UpdateProfile(string newName, string newUsername)
         {
             Name = newName;
@@ -62,22 +55,21 @@ namespace FormsProject1MaliukovCvetkovic.Classes
 
     public class SimpleUser : User
     {
-        // Передаем ID в базовый конструктор при загрузке
         [JsonConstructor]
-        public SimpleUser(string name, string username, string password, string id) 
+        public SimpleUser(string name, string username, string password, string id)
             : base(name, username, password, id) { }
 
-        public SimpleUser(string name, string username, string password) 
+        public SimpleUser(string name, string username, string password)
             : base(name, username, password) { }
     }
 
     public class AdminUser : User
     {
         [JsonConstructor]
-        public AdminUser(string name, string username, string password, string id) 
+        public AdminUser(string name, string username, string password, string id)
             : base(name, username, password, id) { }
 
-        public AdminUser(string name, string username, string password) 
+        public AdminUser(string name, string username, string password)
             : base(name, username, password) { }
     }
 }

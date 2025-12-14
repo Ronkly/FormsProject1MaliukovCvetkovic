@@ -8,11 +8,10 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         public static List<Task> tasks = [];
         public static AdminUser admin = new("Karl", "admin", "admin123");
         
-        // This holds the current logged-in user
         public static User? CurrentUser { get; set; }
 
         private static readonly string usersFile = "radnici.json";
-        private static readonly string tasksFile = "tasks.json"; // I need a file for tasks
+        private static readonly string tasksFile = "tasks.json";
 
         static DataBase()
         {
@@ -42,14 +41,12 @@ namespace FormsProject1MaliukovCvetkovic.Classes
             }
         }
 
-        // I need to save the tasks list
         public static void SaveTasks()
         {
             string json = JsonConvert.SerializeObject(tasks, Formatting.Indented);
             File.WriteAllText(tasksFile, json);
         }
 
-        // I need to load the tasks list
         public static void LoadTasks()
         {
             if (File.Exists(tasksFile))
@@ -59,17 +56,14 @@ namespace FormsProject1MaliukovCvetkovic.Classes
             }
         }
         
-        // Authentication logic
         public static bool Authenticate(string username, string password)
         {
-            // Check admin first
             if (admin.Username == username && admin.Password == password)
             {
                 CurrentUser = admin;
                 return true;
             }
 
-            // Then check simple users
             var user = simples.FirstOrDefault(u => u.Username == username && u.Password == password);
             if (user != null)
             {

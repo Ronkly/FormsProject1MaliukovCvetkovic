@@ -6,6 +6,10 @@
         {
             InitializeComponent();
         }
+        private void TextBoxesCheck()
+        {
+            buttonSignUp.Enabled = !string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text) && !string.IsNullOrEmpty(textBox3.Text);
+        }
         private void PerformRegistration(string name, string username, string password)
         {
             if (Classes.DataBase.simples.Any(u => u.Username == username) || Classes.DataBase.admin.Username == username)
@@ -33,17 +37,17 @@
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-
+            TextBoxesCheck();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            TextBoxesCheck();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
+            TextBoxesCheck();
         }
 
         private void buttonLogIn_Click(object sender, EventArgs e)
@@ -54,6 +58,11 @@
         private void buttonNewUser_Click(object sender, EventArgs e)
         {
             BackToLogin();
+        }
+
+        private void NewUserForm_Load(object sender, EventArgs e)
+        {
+            TextBoxesCheck();
         }
     }
 }

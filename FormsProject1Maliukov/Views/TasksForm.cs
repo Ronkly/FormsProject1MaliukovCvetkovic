@@ -1,11 +1,12 @@
 ﻿using FormsProject1MaliukovCvetkovic.Classes;
 using System.Data;
-using System.Linq;
 
 namespace FormsProject1MaliukovCvetkovic.Views
 {
     public partial class TasksForm : Form
     {
+        private Classes.Task? _selectedTask = null;
+
         public TasksForm()
         {
             InitializeComponent();
@@ -14,18 +15,21 @@ namespace FormsProject1MaliukovCvetkovic.Views
         private void TasksForm_Load(object sender, EventArgs e)
         {
             LoadData();
+            buttonUserList.Enabled = DataBase.CurrentUser is AdminUser;
         }
 
         private void LoadData()
         {
             if (DataBase.CurrentUser != null)
+            {
                 labelWelcome.Text = $"Hello, {DataBase.CurrentUser.Name}";
+            }
 
             comboBox1.Items.Clear();
-            comboBox1.Items.Add("Default");
-            comboBox1.Items.Add("Date (Oldest first)");
-            comboBox1.Items.Add("Date (Newest first)");
-            comboBox1.Items.Add("Title (A-Z)");
+            _ = comboBox1.Items.Add("Default");
+            _ = comboBox1.Items.Add("Date (Oldest first)");
+            _ = comboBox1.Items.Add("Date (Newest first)");
+            _ = comboBox1.Items.Add("Title (A-Z)");
             comboBox1.SelectedIndex = 0;
 
             RefreshTaskLists();
@@ -33,20 +37,18 @@ namespace FormsProject1MaliukovCvetkovic.Views
 
         private void RefreshTaskLists()
         {
-            // --- ЛОГИКА ОТОБРАЖЕНИЯ ИМЕН ---
-
-            // 1. Собираем всех пользователей (обычных + админа) в один список для поиска имен
             List<User> allUsers = DataBase.simples.Cast<User>().ToList();
-            if (DataBase.admin != null) allUsers.Add(DataBase.admin);
+            if (DataBase.admin != null)
+            {
+                allUsers.Add(DataBase.admin);
+            }
 
-            // 2. Объединяем Задачи с Юзерами, чтобы получить Имена
-            var query = DataBase.tasks.Join(allUsers,
-                task => task.owner_ID,    // ID из задачи
-                user => user.Id,          // ID юзера
-                (task, user) => new TaskDisplay(task, user.Name) // Создаем красивый объект
+            IEnumerable<TaskDisplay> query = DataBase.tasks.Join(allUsers,
+                task => task.owner_ID,
+                user => user.Id,
+                (task, user) => new TaskDisplay(task, user.Name)
             ).AsEnumerable();
 
-            // 3. Фильтрация
             string searchText = textBox1.Text.ToLower().Trim();
             if (!string.IsNullOrEmpty(searchText))
             {
@@ -55,7 +57,6 @@ namespace FormsProject1MaliukovCvetkovic.Views
                                       || t.OwnerName.ToLower().Contains(searchText));
             }
 
-            // 4. Сортировка
             switch (comboBox1.SelectedIndex)
             {
                 case 1: query = query.OrderBy(t => t.DueDate); break;
@@ -63,10 +64,8 @@ namespace FormsProject1MaliukovCvetkovic.Views
                 case 3: query = query.OrderBy(t => t.Title); break;
             }
 
-            var resultList = query.ToList();
-
-            // 5. Разделяем на "Мои" и "Все"
-            var myTasks = resultList.Where(t => t.owner_ID == DataBase.CurrentUser?.Id).ToList();
+            List<TaskDisplay> resultList = query.ToList();
+            List<TaskDisplay> myTasks = resultList.Where(t => t.owner_ID == DataBase.CurrentUser?.Id).ToList();
 
             BindGrid(dataGridView1, myTasks);
             BindGrid(dataGridView2, resultList);
@@ -77,63 +76,180 @@ namespace FormsProject1MaliukovCvetkovic.Views
             dgv.DataSource = null;
             dgv.DataSource = data;
 
-            // Прячем ID, показываем Имя
-            if (dgv.Columns["owner_ID"] != null) dgv.Columns["owner_ID"].Visible = false;
+            if (dgv.Columns["owner_ID"] != null)
+            {
+                dgv.Columns["owner_ID"].Visible = false;
+            }
+
             if (dgv.Columns["OwnerName"] != null)
             {
                 dgv.Columns["OwnerName"].HeaderText = "Author";
-                dgv.Columns["OwnerName"].DisplayIndex = 0; // Ставим имя первым
+                dgv.Columns["OwnerName"].DisplayIndex = 0;
             }
         }
 
-        // --- ЛОГИКА ДОБАВЛЕНИЯ И УДАЛЕНИЯ ---
+        private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (sender is DataGridView dgv && e.RowIndex >= 0 && e.RowIndex < dgv.Rows.Count)
+            {
+                if (dgv.Rows[e.RowIndex].DataBoundItem is TaskDisplay item && item.IsCompleted)
+                {
+                    e.CellStyle.BackColor = Color.LightGreen;
+                    e.CellStyle.SelectionBackColor = Color.Green;
+                }
+            }
+        }
+
+        // The method below finds the original task in the database by matching owner ID, title, and due date.
+        // This is not ideal without a unique task ID, but it's acceptable for this learning project.
+        private void HandleCellClick(DataGridView dgv, int rowIndex)
+        {
+            if (rowIndex < 0)
+            {
+                return;
+            }
+
+            TaskDisplay displayItem = (TaskDisplay)dgv.Rows[rowIndex].DataBoundItem;
+
+            _selectedTask = DataBase.tasks.FirstOrDefault(t =>
+                t.owner_ID == displayItem.owner_ID &&
+                t.Title == displayItem.Title &&
+                t.DueDate == displayItem.DueDate);
+
+            if (_selectedTask != null)
+            {
+                textBoxTaskName.Text = _selectedTask.Title;
+                textBoxTaskDesc.Text = _selectedTask.Description;
+                dateTimePicker1.Value = _selectedTask.DueDate;
+
+                bool isOwner = _selectedTask.owner_ID == DataBase.CurrentUser?.Id;
+                bool isAdmin = DataBase.CurrentUser is AdminUser;
+                buttonUpdate.Enabled = isOwner || isAdmin;
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            HandleCellClick(dataGridView1, e.RowIndex);
+        }
+
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            HandleCellClick(dataGridView2, e.RowIndex);
+        }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            if (_selectedTask == null)
+            {
+                _ = MessageBox.Show("Please select a task from the list first.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(textBoxTaskName.Text))
+            {
+                _ = MessageBox.Show("Name cannot be empty.");
+                return;
+            }
+
+            _selectedTask.Title = textBoxTaskName.Text;
+            _selectedTask.Description = textBoxTaskDesc.Text;
+            _selectedTask.DueDate = dateTimePicker1.Value;
+
+            DataBase.SaveTasks();
+
+            _selectedTask = null;
+            textBoxTaskName.Text = "";
+            textBoxTaskDesc.Text = "";
+            RefreshTaskLists();
+
+            _ = MessageBox.Show("Task updated!");
+        }
+
+        private void buttonMarkDone_Click(object sender, EventArgs e)
+        {
+            if (_selectedTask == null)
+            {
+                if (dataGridView1.Focused && dataGridView1.SelectedRows.Count > 0)
+                {
+                    HandleCellClick(dataGridView1, dataGridView1.SelectedRows[0].Index);
+                }
+                else if (dataGridView2.Focused && dataGridView2.SelectedRows.Count > 0)
+                {
+                    HandleCellClick(dataGridView2, dataGridView2.SelectedRows[0].Index);
+                }
+            }
+
+            if (_selectedTask != null)
+            {
+                _selectedTask.IsCompleted = true;
+
+                DataBase.SaveTasks();
+                RefreshTaskLists();
+                _selectedTask = null;
+            }
+            else
+            {
+                _ = MessageBox.Show("Please select a task to mark as completed.");
+            }
+        }
+
+        private void buttonTask_Click(object sender, EventArgs e)
+        {
+            AddNewTask(textBoxTaskName.Text, textBoxTaskDesc.Text, dateTimePicker1.Value);
+        }
 
         private void AddNewTask(string title, string desc, DateTime date)
         {
             if (DataBase.CurrentUser == null || string.IsNullOrWhiteSpace(title))
             {
-                MessageBox.Show("Введите название задачи!");
+                _ = MessageBox.Show("Введите название задачи!");
                 return;
             }
 
-            // Создаем задачу
-            Classes.Task newTask = new Classes.Task(title, desc, date, DataBase.CurrentUser.Id);
+            Classes.Task newTask = new(title, desc, date, DataBase.CurrentUser.Id);
             DataBase.tasks.Add(newTask);
             DataBase.SaveTasks();
 
             textBoxTaskName.Text = "";
             textBoxTaskDesc.Text = "";
             RefreshTaskLists();
-            MessageBox.Show("Task added successfully!");
         }
 
-        private void DeleteSelectedTask(string taskId)
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
-            // Ищем задачу по ID владельца и параметрам (или лучше добавить ID самой задаче в будущем)
-            // Но пока удаляем по ссылке на объект из списка
-            var taskToDelete = DataBase.tasks.FirstOrDefault(t => t.owner_ID == taskId);
-            // Это упрощение. В идеале у Task должен быть свой уникальный TaskId.
-            // Но используем логику удаления через TaskDisplay
+            if (dataGridView1.Focused || dataGridView1.SelectedRows.Count > 0)
+            {
+                TryDeleteFromGrid(dataGridView1);
+            }
+            else if (dataGridView2.Focused || dataGridView2.SelectedRows.Count > 0)
+            {
+                TryDeleteFromGrid(dataGridView2);
+            }
+            else
+            {
+                _ = MessageBox.Show("Select a row to delete.");
+            }
         }
 
-        // Правильный метод удаления через интерфейс
         private void TryDeleteFromGrid(DataGridView dgv)
         {
-            if (dgv.SelectedRows.Count == 0) return;
+            if (dgv.SelectedRows.Count == 0)
+            {
+                return;
+            }
 
-            // Получаем красивый объект из строки
             TaskDisplay displayItem = (TaskDisplay)dgv.SelectedRows[0].DataBoundItem;
-
-            // Находим ОРИГИНАЛЬНУЮ задачу в базе данных
-            // (Сравниваем всё, так как у задачи нет уникального ID, это слабое место, но пока сойдет)
-            var originalTask = DataBase.tasks.FirstOrDefault(t =>
+            Classes.Task? originalTask = DataBase.tasks.FirstOrDefault(t =>
                 t.owner_ID == displayItem.owner_ID &&
                 t.Title == displayItem.Title &&
                 t.DueDate == displayItem.DueDate);
 
-            if (originalTask == null) return;
+            if (originalTask == null)
+            {
+                return;
+            }
 
-            // Проверка прав
             bool isAdmin = DataBase.CurrentUser is AdminUser;
             bool isOwner = originalTask.owner_ID == DataBase.CurrentUser?.Id;
 
@@ -141,49 +257,50 @@ namespace FormsProject1MaliukovCvetkovic.Views
             {
                 if (MessageBox.Show("Delete task?", "Confirm", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    DataBase.tasks.Remove(originalTask);
+                    _ = DataBase.tasks.Remove(originalTask);
                     DataBase.SaveTasks();
+                    _selectedTask = null;
                     RefreshTaskLists();
                 }
             }
             else
             {
-                MessageBox.Show("You can only delete your own tasks.");
+                _ = MessageBox.Show("You can only delete your own tasks.");
             }
         }
 
-        // --- СОБЫТИЯ ---
-
-        private void buttonTask_Click(object sender, EventArgs e)
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            AddNewTask(textBoxTaskName.Text, textBoxTaskDesc.Text, dateTimePicker1.Value);
+            RefreshTaskLists();
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Проверяем, какая таблица активна
-            if (dataGridView1.Focused || dataGridView1.SelectedRows.Count > 0)
-                TryDeleteFromGrid(dataGridView1);
-            else if (dataGridView2.Focused || dataGridView2.SelectedRows.Count > 0)
-                TryDeleteFromGrid(dataGridView2);
-            else
-                MessageBox.Show("Select a row to delete.");
+            RefreshTaskLists();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e) => RefreshTaskLists();
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) => RefreshTaskLists();
+        private void buttonUserList_Click(object sender, EventArgs e)
+        {
+            OpenUserManagement();
+        }
 
-        private void buttonUserList_Click(object sender, EventArgs e) => OpenUserManagement();
-
-        private void buttonLogOut_Click(object sender, EventArgs e) => PerformLogout();
+        private void buttonLogOut_Click(object sender, EventArgs e)
+        {
+            PerformLogout();
+        }
 
         private void buttonProfile_Click(object sender, EventArgs e)
         {
-            UserProfileForm profileForm = new UserProfileForm();
-            profileForm.ShowDialog();
-
-            if (DataBase.CurrentUser == null) PerformLogout();
-            else labelWelcome.Text = $"Hello, {DataBase.CurrentUser.Name}";
+            UserProfileForm profileForm = new();
+            _ = profileForm.ShowDialog();
+            if (DataBase.CurrentUser == null)
+            {
+                PerformLogout();
+            }
+            else
+            {
+                labelWelcome.Text = $"Hello, {DataBase.CurrentUser.Name}";
+            }
         }
 
         private void PerformLogout()
@@ -195,30 +312,43 @@ namespace FormsProject1MaliukovCvetkovic.Views
 
         private void OpenUserManagement()
         {
-            if (DataBase.CurrentUser is AdminUser) new Views.Admin.UserManagement().Show();
-            else MessageBox.Show("Admin only.");
+            if (DataBase.CurrentUser is AdminUser)
+            {
+                new Views.Admin.UserManagement().Show();
+            }
+            else
+            {
+                _ = MessageBox.Show("Admin only.");
+            }
         }
 
-        // Пустые методы, чтобы дизайнер не ругался
+        private void textBoxTaskName_TextChanged(object sender, EventArgs e)
+        {
+            TextBoxesCheckTask();
+        }
+
+        private void textBoxTaskDesc_TextChanged(object sender, EventArgs e)
+        {
+            TextBoxesCheckTask();
+        }
+
+        private void TextBoxesCheckTask()
+        {
+            buttonTask.Enabled = !string.IsNullOrEmpty(textBoxTaskName.Text) && !string.IsNullOrEmpty(textBoxTaskDesc.Text);
+        }
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void buttonUpdate_Click(object sender, EventArgs e) 
-        {
-            RefreshTaskLists();
-        }
-        private void textBoxTaskName_TextChanged(object sender, EventArgs e) { }
-        private void textBoxTaskDesc_TextChanged(object sender, EventArgs e) { }
     }
 
-    // --- ВСПОМОГАТЕЛЬНЫЙ КЛАСС ДЛЯ ОТОБРАЖЕНИЯ (Вставь его в конец файла TasksForm.cs) ---
     public class TaskDisplay
     {
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime DueDate { get; set; }
         public bool IsCompleted { get; set; }
-        public string OwnerName { get; set; } // ИМЯ!
-        public string owner_ID { get; set; }  // Скрытый ID для логики
+        public string OwnerName { get; set; }
+        public string owner_ID { get; set; }
 
         public TaskDisplay(Classes.Task task, string ownerName)
         {
