@@ -50,21 +50,26 @@
 
             if (Classes.DataBase.Authenticate(username, password))
             {
-                Views.TasksForm tasksForm = new Views.TasksForm();
+                Views.TasksForm tasksForm = new();
                 tasksForm.Show();
-                this.Hide();
+                Hide();
             }
             else
             {
-                MessageBox.Show("Incorrect login or password");
+                _ = MessageBox.Show("Incorrect login or password");
             }
         }
 
         private void GoToSignUp()
         {
-            Views.Authorization.NewUserForm regForm = new Views.Authorization.NewUserForm();
+            Views.Authorization.NewUserForm regForm = new();
             regForm.Show();
-            this.Hide();
+            Hide();
+        }
+
+        private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

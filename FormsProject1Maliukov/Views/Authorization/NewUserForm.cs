@@ -2,16 +2,24 @@
 {
     public partial class NewUserForm : Form
     {
+        private bool backToLogin = false;
         public NewUserForm()
         {
             InitializeComponent();
+        }
+        private void NewUserForm_Load(object sender, EventArgs e)
+        {
+            TextBoxesCheck();
         }
         private void TextBoxesCheck()
         {
             buttonSignUp.Enabled = !string.IsNullOrEmpty(textBox1.Text) && !string.IsNullOrEmpty(textBox2.Text) && !string.IsNullOrEmpty(textBox3.Text);
         }
-        private void PerformRegistration(string name, string username, string password)
+        private void buttonLogIn_Click(object sender, EventArgs e)
         {
+            string name = textBox1.Text;
+            string username = textBox2.Text;
+            string password = textBox3.Text;
             if (Classes.DataBase.simples.Any(u => u.Username == username) || Classes.DataBase.admin.Username == username)
             {
                 _ = MessageBox.Show("User with this username already exists.");
@@ -23,14 +31,12 @@
             Classes.DataBase.SaveUsers();
 
             _ = MessageBox.Show("Registration successful! Now log in.");
-            LoginForm login = new();
-            login.Show();
-            Close();
+            BackToLogin();
         }
         private void BackToLogin()
         {
             LoginForm login = new();
-
+            backToLogin = true;
             login.Show();
             Close();
         }
@@ -50,19 +56,17 @@
             TextBoxesCheck();
         }
 
-        private void buttonLogIn_Click(object sender, EventArgs e)
-        {
-            PerformRegistration(textBox1.Text, textBox2.Text, textBox3.Text);
-        }
-
         private void buttonNewUser_Click(object sender, EventArgs e)
         {
             BackToLogin();
         }
 
-        private void NewUserForm_Load(object sender, EventArgs e)
+        private void NewUserForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            TextBoxesCheck();
+            if (!backToLogin)
+            {
+                Application.Exit();
+            }
         }
     }
 }

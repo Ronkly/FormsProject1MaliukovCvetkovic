@@ -39,7 +39,7 @@
             // 
             // textBox2
             // 
-            textBox2.Font = new Font("Arial", 14F);
+            textBox2.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Point);
             textBox2.Location = new Point(108, 164);
             textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
@@ -50,7 +50,7 @@
             // 
             // textBox1
             // 
-            textBox1.Font = new Font("Arial", 14F);
+            textBox1.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Point);
             textBox1.Location = new Point(108, 116);
             textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
@@ -61,7 +61,7 @@
             // 
             // buttonToLogIn
             // 
-            buttonToLogIn.Location = new Point(333, 35);
+            buttonToLogIn.Location = new Point(305, 35);
             buttonToLogIn.Margin = new Padding(3, 2, 3, 2);
             buttonToLogIn.Name = "buttonToLogIn";
             buttonToLogIn.Size = new Size(82, 22);
@@ -84,7 +84,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(27, 35);
             label1.Name = "label1";
             label1.Size = new Size(104, 26);
@@ -93,7 +93,7 @@
             // 
             // textBox3
             // 
-            textBox3.Font = new Font("Arial", 14F);
+            textBox3.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Point);
             textBox3.Location = new Point(108, 219);
             textBox3.Margin = new Padding(3, 2, 3, 2);
             textBox3.Name = "textBox3";
@@ -106,7 +106,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             label2.Location = new Point(161, 69);
             label2.Name = "label2";
             label2.Size = new Size(93, 26);
@@ -117,7 +117,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(437, 439);
+            ClientSize = new Size(431, 406);
             Controls.Add(label2);
             Controls.Add(textBox3);
             Controls.Add(textBox2);
@@ -128,6 +128,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "NewUserForm";
             Text = "NewUserForm";
+            FormClosed += NewUserForm_FormClosed;
             Load += NewUserForm_Load;
             ResumeLayout(false);
             PerformLayout();

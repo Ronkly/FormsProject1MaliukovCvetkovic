@@ -16,6 +16,7 @@ namespace FormsProject1MaliukovCvetkovic.Views
 
         private void LoadProfileData()
         {
+            labelID.Text = "ID: " + DataBase.CurrentUser.Id;
             textBoxName.Text = DataBase.CurrentUser.Name;
             textBoxLogin.Text = DataBase.CurrentUser.Username;
             textBoxName.Text = DataBase.CurrentUser.Name;
@@ -47,7 +48,7 @@ namespace FormsProject1MaliukovCvetkovic.Views
             return true;
         }
 
-        private void DeleteAccount()
+        private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (DataBase.CurrentUser is AdminUser)
             {
@@ -60,22 +61,15 @@ namespace FormsProject1MaliukovCvetkovic.Views
             {
                 _ = DataBase.tasks.RemoveAll(t => t.owner_ID == DataBase.CurrentUser.Id);
                 DataBase.SaveTasks();
-
-                // Remove the user from the list
                 if (DataBase.CurrentUser is SimpleUser simple)
                 {
                     _ = DataBase.simples.Remove(simple);
                     DataBase.SaveUsers();
                 }
-
                 DataBase.CurrentUser = null;
                 _ = MessageBox.Show("Account successfully deleted.");
+                Close();
             }
-        }
-
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            DeleteAccount();
         }
 
         private void buttonSaveChanges_Click(object sender, EventArgs e)

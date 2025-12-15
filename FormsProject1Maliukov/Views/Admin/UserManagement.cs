@@ -41,6 +41,10 @@ namespace FormsProject1MaliukovCvetkovic.Views.Admin
             _ = dataGridView1.Columns.Add(dischargeColumn);
 
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+
+            dataGridView1.CellValueChanged += dataGridView1_CellValueChanged;
+            dataGridView1.CurrentCellDirtyStateChanged += dataGridView1_CurrentCellDirtyStateChanged;
+
             DataGridViewRefresh();
         }
 
@@ -86,6 +90,61 @@ namespace FormsProject1MaliukovCvetkovic.Views.Admin
 
                 DataGridViewRefresh();
                 _ = MessageBox.Show($"User {usernameToDischarge} has been fired.");
+            }
+        }
+
+        private void dataGridView1_CurrentCellDirtyStateChanged(object? sender, EventArgs e)
+        {
+            if (sender is DataGridView dgv && dgv.IsCurrentCellDirty)
+            {
+                _ = dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dataGridView1_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dataGridView1.Rows.Count)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+            object? idObj = row.Cells["IDColumn"].Value;
+            if (idObj == null)
+            {
+                return;
+            }
+
+            string id = idObj.ToString() ?? string.Empty;
+            SimpleUser? user = DataBase.simples.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                return;
+            }
+
+            DataGridViewColumn? col = dataGridView1.Columns[e.ColumnIndex];
+            if (col == null)
+            {
+                return;
+            }
+
+            if (col.Name == "NameColumn")
+            {
+                string newName = row.Cells["NameColumn"].Value?.ToString() ?? string.Empty;
+                if (user.Username != newName)
+                {
+                    user.Username = newName;
+                    DataBase.SaveUsers();
+                }
+            }
+            else if (col.Name == "PasswordColumn")
+            {
+                string newPass = row.Cells["PasswordColumn"].Value?.ToString() ?? string.Empty;
+                if (user.Password != newPass)
+                {
+                    user.Password = newPass;
+                    DataBase.SaveUsers();
+                }
             }
         }
     }

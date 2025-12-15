@@ -4,10 +4,10 @@ namespace FormsProject1MaliukovCvetkovic.Classes
 {
     public static class DataBase
     {
-        public static List<SimpleUser> simples = [];
-        public static List<Task> tasks = [];
+        public static List<SimpleUser> simples = new();
+        public static List<Task> tasks = new();
         public static AdminUser admin = new("Karl", "admin", "admin123");
-        
+
         public static User? CurrentUser { get; set; }
 
         private static readonly string usersFile = "radnici.json";
@@ -32,7 +32,7 @@ namespace FormsProject1MaliukovCvetkovic.Classes
             if (File.Exists(usersFile))
             {
                 string json = File.ReadAllText(usersFile);
-                simples = JsonConvert.DeserializeObject<List<SimpleUser>>(json) ?? [];
+                simples = JsonConvert.DeserializeObject<List<SimpleUser>>(json) ?? new List<SimpleUser>();
             }
             if (File.Exists("admin.json"))
             {
@@ -52,10 +52,10 @@ namespace FormsProject1MaliukovCvetkovic.Classes
             if (File.Exists(tasksFile))
             {
                 string json = File.ReadAllText(tasksFile);
-                tasks = JsonConvert.DeserializeObject<List<Task>>(json) ?? [];
+                tasks = JsonConvert.DeserializeObject<List<Task>>(json) ?? new();
             }
         }
-        
+
         public static bool Authenticate(string username, string password)
         {
             if (admin.Username == username && admin.Password == password)
@@ -64,13 +64,13 @@ namespace FormsProject1MaliukovCvetkovic.Classes
                 return true;
             }
 
-            var user = simples.FirstOrDefault(u => u.Username == username && u.Password == password);
+            SimpleUser? user = simples.FirstOrDefault(u => u.Username == username && u.Password == password);
             if (user != null)
             {
                 CurrentUser = user;
                 return true;
             }
-            
+
             return false;
         }
     }

@@ -39,7 +39,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(35, 36);
             label1.Name = "label1";
             label1.Size = new Size(104, 26);
@@ -70,7 +70,7 @@
             // 
             // textBox1
             // 
-            textBox1.Font = new Font("Arial", 14F);
+            textBox1.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Point);
             textBox1.Location = new Point(99, 125);
             textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
@@ -81,7 +81,7 @@
             // 
             // textBox2
             // 
-            textBox2.Font = new Font("Arial", 14F);
+            textBox2.Font = new Font("Arial", 14F, FontStyle.Regular, GraphicsUnit.Point);
             textBox2.Location = new Point(99, 186);
             textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
@@ -94,7 +94,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             label2.Location = new Point(159, 77);
             label2.Name = "label2";
             label2.Size = new Size(75, 26);
@@ -115,6 +115,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "LoginForm";
             Text = "Tasks - Log in";
+            FormClosed += LoginForm_FormClosed;
             Load += LoginForm_Load;
             ResumeLayout(false);
             PerformLayout();

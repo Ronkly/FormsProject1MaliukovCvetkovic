@@ -6,6 +6,7 @@ namespace FormsProject1MaliukovCvetkovic.Views
     public partial class TasksForm : Form
     {
         private Classes.Task? _selectedTask = null;
+        private bool backToLogin = false;
 
         public TasksForm()
         {
@@ -86,6 +87,59 @@ namespace FormsProject1MaliukovCvetkovic.Views
                 dgv.Columns["OwnerName"].HeaderText = "Author";
                 dgv.Columns["OwnerName"].DisplayIndex = 0;
             }
+
+            if (dgv.Columns["IsCompleted"] != null)
+            {
+                dgv.Columns["IsCompleted"].HeaderText = "Done";
+                dgv.Columns["IsCompleted"].ReadOnly = false;
+            }
+
+            dgv.CellValueChanged -= DataGridView_CellValueChanged;
+            dgv.CellValueChanged += DataGridView_CellValueChanged;
+            dgv.CurrentCellDirtyStateChanged -= DataGridView_CurrentCellDirtyStateChanged;
+            dgv.CurrentCellDirtyStateChanged += DataGridView_CurrentCellDirtyStateChanged;
+        }
+
+        private void DataGridView_CurrentCellDirtyStateChanged(object? sender, EventArgs e)
+        {
+            if (sender is DataGridView dgv && dgv.IsCurrentCellDirty)
+            {
+                _ = dgv.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void DataGridView_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (sender is not DataGridView dgv)
+            {
+                return;
+            }
+
+            if (e.RowIndex < 0 || e.RowIndex >= dgv.Rows.Count)
+            {
+                return;
+            }
+
+            DataGridViewColumn? col = dgv.Columns[e.ColumnIndex];
+            if (col == null || col.Name != "IsCompleted")
+            {
+                return;
+            }
+
+            if (dgv.Rows[e.RowIndex].DataBoundItem is TaskDisplay displayItem)
+            {
+                Classes.Task? original = DataBase.tasks.FirstOrDefault(t =>
+                    t.owner_ID == displayItem.owner_ID &&
+                    t.Title == displayItem.Title &&
+                    t.DueDate == displayItem.DueDate);
+
+                if (original != null)
+                {
+                    original.IsCompleted = displayItem.IsCompleted;
+                    DataBase.SaveTasks();
+                    RefreshTaskLists();
+                }
+            }
         }
 
         private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -100,8 +154,6 @@ namespace FormsProject1MaliukovCvetkovic.Views
             }
         }
 
-        // The method below finds the original task in the database by matching owner ID, title, and due date.
-        // This is not ideal without a unique task ID, but it's acceptable for this learning project.
         private void HandleCellClick(DataGridView dgv, int rowIndex)
         {
             if (rowIndex < 0)
@@ -136,6 +188,31 @@ namespace FormsProject1MaliukovCvetkovic.Views
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             HandleCellClick(dataGridView2, e.RowIndex);
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+
+        private void AddNewTask(string title, string desc, DateTime date)
+        {
+            if (DataBase.CurrentUser == null || string.IsNullOrWhiteSpace(title))
+            {
+                _ = MessageBox.Show("Введите название задачи!");
+                return;
+            }
+
+            Classes.Task newTask = new(title, desc, date, DataBase.CurrentUser.Id);
+            DataBase.tasks.Add(newTask);
+            DataBase.SaveTasks();
+
+            textBoxTaskName.Text = "";
+            textBoxTaskDesc.Text = "";
+            RefreshTaskLists();
+        }
+
+        private void buttonTask_Click(object sender, EventArgs e)
+        {
+            AddNewTask(textBoxTaskName.Text, textBoxTaskDesc.Text, dateTimePicker1.Value);
         }
 
         private void buttonUpdate_Click(object sender, EventArgs e)
@@ -194,44 +271,6 @@ namespace FormsProject1MaliukovCvetkovic.Views
             }
         }
 
-        private void buttonTask_Click(object sender, EventArgs e)
-        {
-            AddNewTask(textBoxTaskName.Text, textBoxTaskDesc.Text, dateTimePicker1.Value);
-        }
-
-        private void AddNewTask(string title, string desc, DateTime date)
-        {
-            if (DataBase.CurrentUser == null || string.IsNullOrWhiteSpace(title))
-            {
-                _ = MessageBox.Show("Введите название задачи!");
-                return;
-            }
-
-            Classes.Task newTask = new(title, desc, date, DataBase.CurrentUser.Id);
-            DataBase.tasks.Add(newTask);
-            DataBase.SaveTasks();
-
-            textBoxTaskName.Text = "";
-            textBoxTaskDesc.Text = "";
-            RefreshTaskLists();
-        }
-
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            if (dataGridView1.Focused || dataGridView1.SelectedRows.Count > 0)
-            {
-                TryDeleteFromGrid(dataGridView1);
-            }
-            else if (dataGridView2.Focused || dataGridView2.SelectedRows.Count > 0)
-            {
-                TryDeleteFromGrid(dataGridView2);
-            }
-            else
-            {
-                _ = MessageBox.Show("Select a row to delete.");
-            }
-        }
-
         private void TryDeleteFromGrid(DataGridView dgv)
         {
             if (dgv.SelectedRows.Count == 0)
@@ -269,6 +308,44 @@ namespace FormsProject1MaliukovCvetkovic.Views
             }
         }
 
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.Focused || dataGridView1.SelectedRows.Count > 0)
+            {
+                TryDeleteFromGrid(dataGridView1);
+            }
+            else if (dataGridView2.Focused || dataGridView2.SelectedRows.Count > 0)
+            {
+                TryDeleteFromGrid(dataGridView2);
+            }
+            else
+            {
+                _ = MessageBox.Show("Select a row to delete.");
+            }
+        }
+
+        private void TextBoxesCheckTask()
+        {
+            buttonTask.Enabled = !string.IsNullOrEmpty(textBoxTaskName.Text) && !string.IsNullOrEmpty(textBoxTaskDesc.Text);
+
+            if (_selectedTask != null)
+            {
+                bool isOwner = _selectedTask.owner_ID == DataBase.CurrentUser?.Id;
+                bool isAdmin = DataBase.CurrentUser is AdminUser;
+                buttonUpdate.Enabled = (isOwner || isAdmin) && !string.IsNullOrWhiteSpace(textBoxTaskName.Text);
+            }
+        }
+
+        private void textBoxTaskName_TextChanged(object sender, EventArgs e)
+        {
+            TextBoxesCheckTask();
+        }
+
+        private void textBoxTaskDesc_TextChanged(object sender, EventArgs e)
+        {
+            TextBoxesCheckTask();
+        }
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             RefreshTaskLists();
@@ -281,7 +358,14 @@ namespace FormsProject1MaliukovCvetkovic.Views
 
         private void buttonUserList_Click(object sender, EventArgs e)
         {
-            OpenUserManagement();
+            if (DataBase.CurrentUser is AdminUser)
+            {
+                new Views.Admin.UserManagement().Show();
+            }
+            else
+            {
+                _ = MessageBox.Show("Admin only.");
+            }
         }
 
         private void buttonLogOut_Click(object sender, EventArgs e)
@@ -302,43 +386,26 @@ namespace FormsProject1MaliukovCvetkovic.Views
                 labelWelcome.Text = $"Hello, {DataBase.CurrentUser.Name}";
             }
         }
+        private void buttonRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshTaskLists();
+        }
 
         private void PerformLogout()
         {
             DataBase.CurrentUser = null;
+            backToLogin = true;
             new LoginForm().Show();
             Close();
         }
 
-        private void OpenUserManagement()
+        private void TasksForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (DataBase.CurrentUser is AdminUser)
+            if (!backToLogin)
             {
-                new Views.Admin.UserManagement().Show();
-            }
-            else
-            {
-                _ = MessageBox.Show("Admin only.");
+                Application.Exit();
             }
         }
-
-        private void textBoxTaskName_TextChanged(object sender, EventArgs e)
-        {
-            TextBoxesCheckTask();
-        }
-
-        private void textBoxTaskDesc_TextChanged(object sender, EventArgs e)
-        {
-            TextBoxesCheckTask();
-        }
-
-        private void TextBoxesCheckTask()
-        {
-            buttonTask.Enabled = !string.IsNullOrEmpty(textBoxTaskName.Text) && !string.IsNullOrEmpty(textBoxTaskDesc.Text);
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }
 
     public class TaskDisplay
