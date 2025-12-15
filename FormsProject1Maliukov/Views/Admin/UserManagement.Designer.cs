@@ -49,22 +49,21 @@ namespace FormsProject1MaliukovCvetkovic.Views.Admin
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             label1.Location = new Point(27, 24);
             label1.Name = "label1";
-            label1.Size = new Size(350, 33);
+            label1.Size = new Size(244, 33);
             label1.TabIndex = 1;
-            label1.Text = "Let's fire some lazy butts";
+            label1.Text = "User Managment";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             label2.Location = new Point(27, 466);
             label2.Name = "label2";
-            label2.Size = new Size(166, 33);
+            label2.Size = new Size(0, 33);
             label2.TabIndex = 2;
-            label2.Text = "Click a row";
             // 
             // UserManagement
             // 
