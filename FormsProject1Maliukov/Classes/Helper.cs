@@ -8,7 +8,7 @@
         }
         public static bool IsValidPassword(string password)
         {
-            bool result = password.Any(char.IsLetter) && password.Any(char.IsDigit) && password.Any(char.IsSymbol) && password.Length >= 6;
+            bool result = password.Any(char.IsLetter) && password.Any(char.IsDigit) && password.Length >= 6;
             return result;
         }
     }

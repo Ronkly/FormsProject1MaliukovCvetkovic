@@ -6,7 +6,7 @@ namespace FormsProject1MaliukovCvetkovic.Classes
     {
         public static List<SimpleUser> simples = new();
         public static List<Task> tasks = new();
-        public static AdminUser admin = new("Karl", "admin", "admin123");
+        public static AdminUser admin = new("Charlie", "admin", "admin123");
 
         public static User? CurrentUser { get; set; }
 

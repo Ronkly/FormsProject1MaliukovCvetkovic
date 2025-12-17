@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace FormsProject1MaliukovCvetkovic.Classes
 {
-    public class User
+    abstract public class User
     {
         private string _name;
         private string _username;
@@ -38,7 +38,8 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         }
         public string Password
         {
-            get => _password; set => _password = !string.IsNullOrWhiteSpace(value) && value.Length >= 6 ? value : "default123";
+            get => _password; 
+            set => _password = !string.IsNullOrWhiteSpace(value) && value.Length >= 6 ? value : "default123";
         }
 
         public void UpdateProfile(string newName, string newUsername)
@@ -51,6 +52,7 @@ namespace FormsProject1MaliukovCvetkovic.Classes
         {
             Password = newPassword;
         }
+        public abstract string GetUserType();
     }
 
     public class SimpleUser : User
@@ -61,6 +63,10 @@ namespace FormsProject1MaliukovCvetkovic.Classes
 
         public SimpleUser(string name, string username, string password)
             : base(name, username, password) { }
+        public override string GetUserType()
+        {
+            return "SimpleUser";
+        }
     }
 
     public class AdminUser : User
@@ -71,5 +77,10 @@ namespace FormsProject1MaliukovCvetkovic.Classes
 
         public AdminUser(string name, string username, string password)
             : base(name, username, password) { }
+
+        public override string GetUserType()
+        {
+            return "AdminUser";
+        }
     }
 }

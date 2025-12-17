@@ -23,7 +23,7 @@ namespace FormsProject1MaliukovCvetkovic.Views
         {
             if (DataBase.CurrentUser != null)
             {
-                labelWelcome.Text = $"Hello, {DataBase.CurrentUser.Name}";
+                labelWelcome.Text = $"Hi, {DataBase.CurrentUser.Name}!:)";
             }
 
             comboBox1.Items.Clear();
@@ -197,7 +197,7 @@ namespace FormsProject1MaliukovCvetkovic.Views
         {
             if (DataBase.CurrentUser == null || string.IsNullOrWhiteSpace(title))
             {
-                _ = MessageBox.Show("Введите название задачи!");
+                _ = MessageBox.Show("Enter the title of the task!");
                 return;
             }
 
@@ -383,7 +383,12 @@ namespace FormsProject1MaliukovCvetkovic.Views
             }
             else
             {
-                labelWelcome.Text = $"Hello, {DataBase.CurrentUser.Name}";
+                labelWelcome.Text = $"Hi, {DataBase.CurrentUser.Name}!:)";
+                if (DataBase.CurrentUser is AdminUser)
+                {
+                    DataBase.admin.Name = DataBase.CurrentUser.Name;
+                    DataBase.SaveUsers();
+                }
             }
         }
         private void buttonRefresh_Click(object sender, EventArgs e)

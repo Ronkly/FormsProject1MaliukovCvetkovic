@@ -1,4 +1,6 @@
-﻿namespace FormsProject1MaliukovCvetkovic.Views.Authorization
+﻿using FormsProject1MaliukovCvetkovic.Classes;
+
+namespace FormsProject1MaliukovCvetkovic.Views.Authorization
 {
     public partial class NewUserForm : Form
     {
@@ -23,6 +25,11 @@
             if (Classes.DataBase.simples.Any(u => u.Username == username) || Classes.DataBase.admin.Username == username)
             {
                 _ = MessageBox.Show("User with this username already exists.");
+                return;
+            }
+            if (Helper.IsValidPassword(password) == false)
+            {
+                _ = MessageBox.Show("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter and one digit.");
                 return;
             }
 
