@@ -28,8 +28,8 @@ namespace FormsProject1MaliukovCvetkovic.Views
 
             comboBox1.Items.Clear();
             _ = comboBox1.Items.Add("Default");
-            _ = comboBox1.Items.Add("Date (Oldest first)");
-            _ = comboBox1.Items.Add("Date (Newest first)");
+            _ = comboBox1.Items.Add("Date (Sooner first)");
+            _ = comboBox1.Items.Add("Date (Later first)");
             _ = comboBox1.Items.Add("Title (A-Z)");
             comboBox1.SelectedIndex = 0;
 
